@@ -2,71 +2,355 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Конфигурация VLESS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VPN Конфигурация</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .config {
-            background: #f5f5f5;
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
             padding: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .status-info h3 {
+            color: #0f172a;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .status-info p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .config-info {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .config-item:last-child {
+            border-bottom: none;
+        }
+        
+        .config-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .config-value {
+            color: #0f172a;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .connect-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+        
+        .manual-instruction {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #92400e;
+        }
+        
+        .manual-instruction h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .manual-instruction ol {
+            padding-left: 20px;
+        }
+        
+        .manual-instruction li {
+            margin-bottom: 8px;
+        }
+        
+        .copy-link {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .copy-link input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            margin: 20px 0;
-            word-break: break-all;
-            font-family: monospace;
+            font-size: 14px;
+            color: #475569;
+        }
+        
+        .copy-link button {
+            padding: 12px 20px;
+            background: #94a3b8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        
+        .copy-link button:hover {
+            background: #64748b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Конфигурация VLESS</h1>
-    <div class="config" id="configOutput"></div>
-    
+    <div class="container">
+        <div class="header">
+            <h1>VPN Конфигурация</h1>
+            <p>Автоматическая настройка для Happ VPN</p>
+        </div>
+        
+        <div class="content">
+            <div class="status">
+                <div class="status-icon">✓</div>
+                <div class="status-info">
+                    <h3>Конфигурация готова</h3>
+                    <p>Ваша подписка активна</p>
+                </div>
+            </div>
+            
+            <div class="config-info">
+                <div class="config-item">
+                    <span class="config-label">Сервер:</span>
+                    <span class="config-value">Нидерланды 🇳🇱</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">Действует до:</span>
+                    <span class="config-value" id="expiryDate">23.01.2026</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">Трафик:</span>
+                    <span class="config-value">Безлимитный</span>
+                </div>
+            </div>
+            
+            <a href="happ://add/https://VlessVPNr.github.io/config/vless?uuid=8a13ed66-d70a-4d32-8052-cbd8e0c5f7f4&server=141.101.120.241&port=8880&type=ws&path=%2FFree-VPN-CF-Geo-Project%2FHK&host=joss.gvpn2.web.id&remark=0005" 
+               class="connect-btn" id="happLink">
+                📱 Открыть в Happ VPN
+            </a>
+            
+            <div class="copy-link">
+                <input type="text" id="configLink" value="happ://add/https://VlessVPNr.github.io/config/vless?uuid=8a13ed66-d70a-4d32-8052-cbd8e0c5f7f4&server=141.101.120.241&port=8880&type=ws&path=%2FFree-VPN-CF-Geo-Project%2FHK&host=joss.gvpn2.web.id&remark=0005" readonly>
+                <button onclick="copyToClipboard()">Копировать</button>
+            </div>
+            
+            <div class="manual-instruction">
+                <h4>Если ссылка не открывается:</h4>
+                <ol>
+                    <li>Скопируйте ссылку выше</li>
+                    <li>Откройте Happ VPN приложение</li>
+                    <li>Нажмите "Импорт" → "Из буфера обмена"</li>
+                    <li>Нажмите "Подключиться"</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Для поддержки: @VlessVPN_helpbot</p>
+            <p>© 2024 VlessVPN</p>
+        </div>
+    </div>
+
     <script>
-        const params = new URLSearchParams(window.location.search);
-        
-        // Генерация vless ссылки из параметров
-        const config = {
-            uuid: params.get('uuid'),
-            server: params.get('server'),
-            port: params.get('port'),
-            type: params.get('type') || 'ws',
-            path: params.get('path') || '',
-            host: params.get('host') || '',
-            remark: params.get('remark') || 'VPN Config'
-        };
-        
-        // Формируем vless ссылку
-        let vlessUrl = `vless://${config.uuid}@${config.server}:${config.port}?`;
-        
-        const queryParams = new URLSearchParams();
-        queryParams.append('type', config.type);
-        queryParams.append('security', 'none');
-        queryParams.append('encryption', 'none');
-        
-        if (config.path) {
-            queryParams.append('path', config.path);
+        // Параметры из URL
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                uuid: params.get('uuid') || '8a13ed66-d70a-4d32-8052-cbd8e0c5f7f4',
+                server: params.get('server') || '141.101.120.241',
+                port: params.get('port') || '8880',
+                type: params.get('type') || 'ws',
+                path: params.get('path') || '%2FFree-VPN-CF-Geo-Project%2FHK',
+                host: params.get('host') || 'joss.gvpn2.web.id',
+                remark: params.get('remark') || '0005',
+                expiry: params.get('expiry') || '2026-01-23'
+            };
         }
         
-        if (config.host) {
-            queryParams.append('host', config.host);
-        }
-        
-        vlessUrl += queryParams.toString();
-        vlessUrl += `#${encodeURIComponent(config.remark)}`;
-        
-        // Отображаем конфигурацию
-        document.getElementById('configOutput').textContent = vlessUrl;
-        
-        // Пытаемся скопировать в буфер обмена
-        setTimeout(() => {
-            navigator.clipboard.writeText(vlessUrl).then(() => {
-                alert('Конфигурация скопирована в буфер обмена!');
+        function updatePage() {
+            const params = getUrlParams();
+            
+            // Формируем happ ссылку
+            const happUrl = `happ://add/https://VlessVPNr.github.io/config/vless?uuid=${params.uuid}&server=${params.server}&port=${params.port}&type=${params.type}&path=${params.path}&host=${params.host}&remark=${params.remark}`;
+            
+            // Формируем vless ссылку
+            const vlessUrl = `vless://${params.uuid}@${params.server}:${params.port}?type=${params.type}&security=none&encryption=none&path=${params.path}&host=${params.host}#${params.remark}`;
+            
+            // Обновляем элементы страницы
+            document.getElementById('happLink').href = happUrl;
+            document.getElementById('configLink').value = happUrl;
+            
+            // Форматируем дату
+            const expiryDate = new Date(params.expiry);
+            const formattedDate = expiryDate.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
             });
-        }, 500);
+            document.getElementById('expiryDate').textContent = formattedDate;
+            
+            // Пытаемся автоматически открыть приложение
+            setTimeout(() => {
+                window.location.href = happUrl;
+            }, 1000);
+        }
+        
+        function copyToClipboard() {
+            const input = document.getElementById('configLink');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            
+            // Показываем уведомление
+            const btn = document.querySelector('.copy-link button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Скопировано!';
+            btn.style.background = '#22c55e';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#94a3b8';
+            }, 2000);
+        }
+        
+        // Проверяем, открылось ли приложение
+        let appOpened = false;
+        
+        document.getElementById('happLink').addEventListener('click', function(e) {
+            appOpened = true;
+            setTimeout(() => {
+                if (!appOpened) {
+                    // Если приложение не открылось, показываем инструкцию
+                    document.querySelector('.manual-instruction').style.display = 'block';
+                }
+            }, 1000);
+        });
+        
+        // Если пользователь вернулся на страницу
+        window.addEventListener('blur', () => {
+            appOpened = true;
+        });
+        
+        // Инициализация страницы
+        window.addEventListener('DOMContentLoaded', updatePage);
     </script>
 </body>
 </html>
