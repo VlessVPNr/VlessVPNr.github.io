@@ -1,250 +1,65 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>VLESS VPN • Auto Setup</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0f172a">
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
-
-* { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
-body {
-    margin: 0;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-.container {
-    max-width: 420px;
-    margin: auto;
-    padding: 20px;
-}
-
-.glow {
-    position: fixed;
-    inset: -50%;
-    background: radial-gradient(circle, rgba(59,130,246,.25), transparent 60%);
-    animation: pulse 8s infinite alternate;
-    z-index: -1;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.3); }
-}
-
-.card {
-    background: rgba(15,23,42,.75);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid rgba(255,255,255,.08);
-    box-shadow: 0 0 40px rgba(59,130,246,.15);
-    animation: fadeUp .7s ease;
-}
-
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.logo {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: #38bdf8;
-    text-shadow: 0 0 20px #38bdf8;
-}
-
-.status {
-    text-align: center;
-    margin: 10px 0;
-    padding: 8px;
-    border-radius: 12px;
-    background: linear-gradient(135deg,#10b981,#059669);
-    font-weight: 600;
-}
-
-.info div {
-    display: flex;
-    justify-content: space-between;
-    margin: 8px 0;
-    color: #cbd5f5;
-}
-
-.buttons a, .buttons button {
-    width: 100%;
-    margin-top: 10px;
-    padding: 14px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 15px;
-    text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: .25s;
-}
-
-.btn-main {
-    background: linear-gradient(135deg,#3b82f6,#2563eb);
-    box-shadow: 0 0 20px rgba(59,130,246,.5);
-}
-
-.btn-main:hover { transform: scale(1.05); }
-
-.btn-happ {
-    background: linear-gradient(135deg,#10b981,#059669);
-    box-shadow: 0 0 20px rgba(16,185,129,.5);
-}
-
-.btn-copy {
-    background: linear-gradient(135deg,#64748b,#475569);
-}
-
-.btn-qr {
-    background: linear-gradient(135deg,#f59e0b,#d97706);
-}
-
-.countdown {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 800;
-    color: #38bdf8;
-    text-shadow: 0 0 20px #38bdf8;
-}
-
-.qr {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.qr img {
-    border-radius: 14px;
-    border: 2px solid #38bdf8;
-    box-shadow: 0 0 20px rgba(56,189,248,.5);
-}
-
-.toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #10b981;
-    padding: 12px 18px;
-    border-radius: 12px;
-    display: none;
-    font-weight: 600;
-    box-shadow: 0 0 20px rgba(16,185,129,.5);
-}
-
-footer {
-    text-align: center;
-    font-size: 12px;
-    color: #94a3b8;
-    margin-top: 10px;
-}
-</style>
+    <title>VPN Configuration - VlessVPN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .config-box { background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .qr-code { text-align: center; margin: 20px 0; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
 </head>
-
 <body>
-<div class="glow"></div>
-
-<div class="container">
-<div class="card">
-<div class="logo">🔒 VLESS VPN</div>
-<div class="status">⚡ Подписка активна</div>
-
-<div class="countdown">
-Автонастройка через <span id="cd">5</span> сек
-</div>
-
-<div class="info">
-<div><span>Устройство:</span><span id="device">—</span></div>
-<div><span>Тип:</span><span id="type">—</span></div>
-<div><span>Сервер:</span><span id="server">—</span></div>
-<div><span>Действует до:</span><span id="exp">—</span></div>
-</div>
-
-<div class="buttons">
-<a id="happLink" class="btn-happ">🚀 Открыть в Happ VPN</a>
-<a id="webLink" class="btn-main">🌐 Открыть через happ.tools</a>
-<button class="btn-copy" onclick="copy()">📋 Скопировать VLESS</button>
-<button class="btn-qr" onclick="toggleQR()">📱 Показать QR</button>
-</div>
-
-<div class="qr" id="qr" style="display:none;">
-<img id="qrImg">
-</div>
-
-<footer>
-ID: <span id="cid"></span><br>
-© 2026 VLESS TG Bot
-</footer>
-</div>
-</div>
-
-<div class="toast" id="toast">Скопировано!</div>
-
-<script>
-const p = new URLSearchParams(location.search);
-const uuid = p.get("uuid");
-const server = p.get("server");
-const port = p.get("port");
-const remark = decodeURIComponent(p.get("remark") || "VLESS VPN");
-const expiry = p.get("expiry") || "2026-12-31";
-
-const vless = `vless://${uuid}@${server}:${port}?type=tcp&security=reality&encryption=none#${encodeURIComponent(remark)}`;
-const enc = encodeURIComponent(vless);
-
-document.getElementById("device").textContent = remark;
-document.getElementById("type").textContent = "VLESS / Reality";
-document.getElementById("server").textContent = server;
-document.getElementById("exp").textContent = expiry;
-document.getElementById("cid").textContent = uuid?.slice(0,8);
-
-document.getElementById("happLink").href = `happ://add/${enc}`;
-document.getElementById("webLink").href = `https://happ.tools/import?config=${enc}`;
-
-document.getElementById("qrImg").src =
-`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(vless)}`;
-
-let cd = 5;
-const timer = setInterval(()=>{
-  cd--;
-  document.getElementById("cd").textContent = cd;
-  if(cd<=0){
-    clearInterval(timer);
-    location.href = `happ://add/${enc}`;
-    setTimeout(()=>location.href=`https://happ.tools/import?config=${enc}`,1000);
-  }
-},1000);
-
-function toggleQR(){
-  const q = document.getElementById("qr");
-  q.style.display = q.style.display==="none"?"block":"none";
-}
-
-function copy(){
-  navigator.clipboard.writeText(vless);
-  toast();
-}
-
-function toast(){
-  const t = document.getElementById("toast");
-  t.style.display="block";
-  setTimeout(()=>t.style.display="none",2500);
-}
-</script>
+    <h1>VPN Configuration</h1>
+    <div id="config-data">
+        <!-- Конфигурация будет загружена сюда -->
+    </div>
+    <div class="qr-code" id="qr-container"></div>
+    <button onclick="copyConfig()">📋 Скопировать конфигурацию</button>
+    
+    <script>
+        // Получаем параметры из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Отображаем конфигурацию
+        const configDiv = document.getElementById('config-data');
+        let vlessLink = '';
+        
+        for (const [key, value] of urlParams) {
+            configDiv.innerHTML += `<p><strong>${key}:</strong> ${decodeURIComponent(value)}</p>`;
+            
+            // Формируем VLESS ссылку
+            if (key === 'uuid') {
+                vlessLink += `vless://${value}@`;
+            } else if (key === 'server') {
+                vlessLink += `${value}:`;
+            } else if (key === 'port') {
+                vlessLink += `${value}?`;
+            }
+            // ... продолжайте формировать ссылку на основе параметров
+        }
+        
+        // Если есть VLESS ссылка, показываем QR-код
+        if (vlessLink) {
+            configDiv.innerHTML += `<div class="config-box"><strong>VLESS ссылка:</strong><br><code>${vlessLink}</code></div>`;
+            
+            // Генерируем QR-код
+            new QRCode(document.getElementById("qr-container"), {
+                text: vlessLink,
+                width: 200,
+                height: 200
+            });
+        }
+        
+        function copyConfig() {
+            navigator.clipboard.writeText(vlessLink)
+                .then(() => alert('Конфигурация скопирована!'))
+                .catch(err => console.error('Ошибка копирования:', err));
+        }
+    </script>
+    <!-- Подключите библиотеку QRCode -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 </body>
 </html>
