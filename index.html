@@ -2,102 +2,71 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Конфигурация VLESS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPN Подключение</title>
-    <meta http-equiv="refresh" content="0; url=https://w6-yj.atlanta-subs.ru/z5jea764zYL6L5yv">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            max-width: 500px;
-        }
-        h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: white;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: transform 0.3s;
-        }
-        .link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .config {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 Перенаправление на VPN</h1>
-        <p>Подождите, вы автоматически переходите на страницу подключения...</p>
-        <div class="spinner"></div>
-        <p>Если перенаправление не произошло, нажмите кнопку ниже:</p>
-        <a href="https://w6-yj.atlanta-subs.ru/z5jea764zYL6L5yv" class="link">Перейти к VPN</a>
-        
-        <div style="margin-top: 40px; font-size: 14px; opacity: 0.7;">
-            <p>Безопасное подключение • Высокая скорость • Анонимность</p>
-        </div>
-    </div>
+    <h1>Конфигурация VLESS</h1>
+    <div class="config" id="configOutput"></div>
     
     <script>
-        // Альтернативный редирект через JavaScript
-        setTimeout(function() {
-            window.location.href = "https://w6-yj.atlanta-subs.ru/z5jea764zYL6L5yv";
-        }, 3000);
+        const params = new URLSearchParams(window.location.search);
         
-        // Отслеживание кликов
-        document.querySelector('.link').addEventListener('click', function() {
-            gtag('event', 'manual_redirect', {
-                'event_category': 'engagement',
-                'event_label': 'vpn_manual_click'
+        // Генерация vless ссылки из параметров
+        const config = {
+            uuid: params.get('uuid'),
+            server: params.get('server'),
+            port: params.get('port'),
+            type: params.get('type') || 'ws',
+            path: params.get('path') || '',
+            host: params.get('host') || '',
+            remark: params.get('remark') || 'VPN Config'
+        };
+        
+        // Формируем vless ссылку
+        let vlessUrl = `vless://${config.uuid}@${config.server}:${config.port}?`;
+        
+        const queryParams = new URLSearchParams();
+        queryParams.append('type', config.type);
+        queryParams.append('security', 'none');
+        queryParams.append('encryption', 'none');
+        
+        if (config.path) {
+            queryParams.append('path', config.path);
+        }
+        
+        if (config.host) {
+            queryParams.append('host', config.host);
+        }
+        
+        vlessUrl += queryParams.toString();
+        vlessUrl += `#${encodeURIComponent(config.remark)}`;
+        
+        // Отображаем конфигурацию
+        document.getElementById('configOutput').textContent = vlessUrl;
+        
+        // Пытаемся скопировать в буфер обмена
+        setTimeout(() => {
+            navigator.clipboard.writeText(vlessUrl).then(() => {
+                alert('Конфигурация скопирована в буфер обмена!');
             });
-        });
-    </script>
-    
-    <!-- Google Analytics (опционально) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXX');
+        }, 500);
     </script>
 </body>
 </html>
