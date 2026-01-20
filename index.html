@@ -6,311 +6,33 @@
     <meta name="theme-color" content="#2563eb">
     <title>VPN Конфигурация</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+        /* Стили остаются теми же, но добавляем: */
         
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            width: 100%;
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 30px;
-            text-align: center;
         }
         
-        .logo {
-            font-size: 2.5em;
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+        
+        .countdown {
+            font-size: 3em;
             font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .logo-icon {
-            font-size: 1.2em;
-        }
-        
-        .title {
-            font-size: 1.8em;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .subtitle {
-            font-size: 1em;
-            opacity: 0.9;
-            margin-bottom: 20px;
-        }
-        
-        .config-section {
-            padding: 30px;
-        }
-        
-        .config-info {
-            background: #f8fafc;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 2px solid #e2e8f0;
-        }
-        
-        .config-item {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .config-label {
-            font-weight: 600;
-            color: #475569;
-            min-width: 120px;
-        }
-        
-        .config-value {
-            color: #1e293b;
-            font-family: 'Courier New', monospace;
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 8px;
-            flex: 1;
-            word-break: break-all;
-        }
-        
-        .buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            flex: 1;
-            min-width: 200px;
-            padding: 18px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-        }
-        
-        .btn-secondary {
-            background: #f1f5f9;
-            color: #475569;
-            border: 2px solid #cbd5e1;
-        }
-        
-        .btn-secondary:hover {
-            background: #e2e8f0;
-            transform: translateY(-2px);
-        }
-        
-        .btn-icon {
-            font-size: 1.3em;
-        }
-        
-        .instructions {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f0f9ff;
-            border-radius: 15px;
-            border-left: 5px solid #2563eb;
-        }
-        
-        .instructions h3 {
             color: #2563eb;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .instructions ol {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 12px;
-            color: #334155;
-            line-height: 1.5;
-        }
-        
-        .footer {
+            margin: 20px 0;
             text-align: center;
-            padding: 20px;
-            color: #64748b;
-            font-size: 0.9em;
-            border-top: 1px solid #e2e8f0;
         }
         
-        .status {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .status-active {
-            background: #dcfce7;
-            color: #166534;
-            border: 2px solid #86efac;
-        }
-        
-        .status-expired {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 2px solid #fca5a5;
-        }
-        
-        .qr-section {
+        .auto-redirect {
             text-align: center;
-            margin: 25px 0;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            border: 2px dashed #cbd5e1;
-        }
-        
-        .qr-code {
-            max-width: 250px;
-            margin: 0 auto 15px;
             padding: 15px;
-            background: white;
+            background: #f0f9ff;
             border-radius: 10px;
-            display: inline-block;
-        }
-        
-        .qr-code img {
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        
-        .copy-btn {
-            background: #f1f5f9;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #475569;
-            transition: background 0.2s;
-        }
-        
-        .copy-btn:hover {
-            background: #e2e8f0;
-        }
-        
-        .success-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-            display: none;
-            z-index: 1000;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .config-section {
-                padding: 20px;
-            }
-            
-            .buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                min-width: 100%;
-            }
-            
-            .config-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .config-label {
-                margin-bottom: 5px;
-            }
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #e2e8f0;
-            border-top: 5px solid #2563eb;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .device-icon {
-            font-size: 1.5em;
-            margin-right: 10px;
+            margin: 20px 0;
+            border: 2px solid #bae6fd;
         }
     </style>
 </head>
@@ -322,7 +44,7 @@
                 VLESS VPN
             </div>
             <h1 class="title">Ваша конфигурация готова</h1>
-            <p class="subtitle">Быстрая и безопасная настройка VPN</p>
+            <p class="subtitle">Автоматическая настройка VPN</p>
             <div id="status" class="status status-active">✅ Активная подписка</div>
         </div>
         
@@ -332,38 +54,58 @@
                 
                 <div class="config-item">
                     <span class="config-label">Устройство:</span>
-                    <span id="deviceName" class="config-value">Мое устройство</span>
+                    <span id="deviceName" class="config-value">Загрузка...</span>
                 </div>
                 
                 <div class="config-item">
                     <span class="config-label">Тип VPN:</span>
-                    <span id="vpnType" class="config-value">🌍 Зарубежные сервисы</span>
+                    <span id="vpnType" class="config-value">Загрузка...</span>
                 </div>
                 
                 <div class="config-item">
                     <span class="config-label">Действует до:</span>
-                    <span id="expiryDate" class="config-value">31.12.2023</span>
+                    <span id="expiryDate" class="config-value">Загрузка...</span>
                 </div>
                 
                 <div class="config-item">
                     <span class="config-label">Сервер:</span>
-                    <span id="server" class="config-value">🇳🇱 Нидерланды</span>
+                    <span id="server" class="config-value">Загрузка...</span>
                 </div>
             </div>
             
+            <!-- Автоматический редирект -->
+            <div class="auto-redirect" id="autoRedirect">
+                <p>🔄 Автоматическая настройка через <b id="countdown">5</b> секунд...</p>
+            </div>
+            
             <div class="buttons">
-                <a id="happLink" class="btn btn-primary" href="#">
-                    <span class="btn-icon">📱</span>
-                    Настроить в Happ VPN
+                <!-- Кнопка для прямого запуска Happ -->
+                <a id="happDirectLink" class="btn btn-success" href="#" target="_blank">
+                    <span class="btn-icon">🚀</span>
+                    Настроить сейчас (Happ VPN)
                 </a>
                 
+                <!-- Кнопка для веб-версии happ.tools -->
+                <a id="happWebLink" class="btn btn-primary" href="#" target="_blank">
+                    <span class="btn-icon">🌐</span>
+                    Настроить через happ.tools
+                </a>
+                
+                <!-- Кнопка для копирования -->
                 <button onclick="copyConfig()" class="btn btn-secondary">
                     <span class="btn-icon">📋</span>
                     Скопировать ссылку
                 </button>
+                
+                <!-- Кнопка для QR кода -->
+                <button onclick="showQR()" class="btn btn-warning">
+                    <span class="btn-icon">📱</span>
+                    Показать QR-код
+                </button>
             </div>
             
-            <div class="qr-section">
+            <!-- QR код (скрыт по умолчанию) -->
+            <div class="qr-section" id="qrSection" style="display: none;">
                 <h3>📱 QR-код для настройки</h3>
                 <p>Отсканируйте код камерой телефона</p>
                 <div class="qr-code">
@@ -377,13 +119,13 @@
             <div class="instructions">
                 <h3><span>📋</span> Инструкция по настройке</h3>
                 <ol>
-                    <li>Нажмите кнопку "Настроить в Happ VPN" выше</li>
-                    <li>Разрешите открыть ссылку в приложении Happ VPN</li>
+                    <li>Страница автоматически настроит VPN через несколько секунд</li>
+                    <li>Если не сработало, нажмите кнопку "Настроить сейчас"</li>
+                    <li>Или отсканируйте QR-код камерой телефона</li>
+                    <li>Приложение Happ VPN откроется с готовой конфигурацией</li>
                     <li>Нажмите "Подключиться" в приложении</li>
-                    <li>Или отсканируйте QR-код через камеру телефона</li>
-                    <li>При необходимости включите VPN в настройках системы</li>
                 </ol>
-                <p><strong>Примечание:</strong> Если ссылка не открывается, убедитесь что у вас установлено приложение Happ VPN из App Store или Google Play.</p>
+                <p><strong>Примечание:</strong> Если Happ VPN не установлен, скачайте его из <a href="https://play.google.com/store/apps/details?id=com.happ.v2ray" target="_blank">Google Play</a> или <a href="https://apps.apple.com/app/happ-vpn/id6476628951" target="_blank">App Store</a>.</p>
             </div>
         </div>
         
@@ -406,81 +148,105 @@
     <script>
         // Параметры из URL
         const urlParams = new URLSearchParams(window.location.search);
+        let redirectTimer;
+        let countdownValue = 5;
         
-        // Устанавливаем значения из параметров URL
         document.addEventListener('DOMContentLoaded', function() {
-            // Основные параметры
-            const uuid = urlParams.get('uuid') || generateUUID();
-            const server = urlParams.get('server') || 'your-server.com';
-            const port = urlParams.get('port') || '443';
+            // Получаем параметры
+            const uuid = urlParams.get('uuid');
+            const server = urlParams.get('server');
+            const port = urlParams.get('port');
             const type = urlParams.get('type') || 'tcp';
             const path = urlParams.get('path') || '/';
             const host = urlParams.get('host') || server;
             const remark = decodeURIComponent(urlParams.get('remark') || 'VLESS VPN');
             const expiry = urlParams.get('expiry') || '2024-12-31';
             
-            // Дополнительная информация
-            const deviceName = remark;
-            const vpnType = type === 'ws' ? '📜 Белые списки' : '🌍 Зарубежные сервисы';
-            const serverLocation = server.includes('nl') ? '🇳🇱 Нидерланды' : '🌐 Смешанные серверы';
-            
             // Формируем VLESS ссылку
-            let vlessLink = `vless://${uuid}@${server}:${port}?`;
-            vlessLink += `type=${type}&security=none&encryption=none&`;
-            vlessLink += `path=${encodeURIComponent(path)}&host=${host}`;
-            vlessLink += `#${encodeURIComponent(remark)}`;
-            
-            // Формируем happ ссылку
-            const encodedVless = encodeURIComponent(vlessLink);
-            const happLink = `happ://add/${encodedVless}`;
-            
-            // Формируем intermediate ссылку
-            const intermediateLink = window.location.origin + window.location.pathname + 
-                `?uuid=${uuid}&server=${server}&port=${port}&type=${type}&` +
-                `path=${encodeURIComponent(path)}&host=${host}&remark=${encodeURIComponent(remark)}&` +
-                `expiry=${expiry}`;
-            
-            // Устанавливаем значения на странице
-            document.getElementById('deviceName').textContent = deviceName;
-            document.getElementById('vpnType').textContent = vpnType;
-            document.getElementById('expiryDate').textContent = formatDate(expiry);
-            document.getElementById('server').textContent = serverLocation;
-            document.getElementById('happLink').href = happLink;
-            document.getElementById('generatedDate').textContent = new Date().toLocaleDateString('ru-RU');
-            document.getElementById('configId').textContent = uuid.substring(0, 8);
-            
-            // Проверяем срок действия
-            const expiryDate = new Date(expiry);
-            const today = new Date();
-            const statusElement = document.getElementById('status');
-            
-            if (expiryDate < today) {
-                statusElement.textContent = '⏰ Подписка истекла';
-                statusElement.className = 'status status-expired';
+            let vlessLink;
+            if (type === 'tcp') {
+                // Для Reality VPN
+                vlessLink = `vless://${uuid}@${server}:${port}?` +
+                           `type=tcp&security=reality&encryption=none&` +
+                           `pbk=${urlParams.get('pbk') || ''}&fp=chrome&` +
+                           `sni=${host}&sid=${urlParams.get('sid') || ''}&` +
+                           `flow=xtls-rprx-vision` +
+                           `#${encodeURIComponent(remark)}`;
+            } else {
+                // Для WS
+                vlessLink = `vless://${uuid}@${server}:${port}?` +
+                           `type=ws&security=none&encryption=none&` +
+                           `path=${encodeURIComponent(path)}&host=${host}` +
+                           `#${encodeURIComponent(remark)}`;
             }
+            
+            // Кодируем для URL
+            const encodedVless = encodeURIComponent(vlessLink);
+            
+            // Создаем ссылки
+            const happDirectLink = `happ://add/${encodedVless}`;
+            const happWebLink = `https://happ.tools/import?config=${encodedVless}`;
+            
+            // Заполняем страницу
+            document.getElementById('deviceName').textContent = remark;
+            document.getElementById('vpnType').textContent = type === 'tcp' ? '🌍 Зарубежные сервисы' : '📜 Белые списки';
+            document.getElementById('expiryDate').textContent = formatDate(expiry);
+            document.getElementById('server').textContent = server.includes('193.39') ? '🇳🇱 Нидерланды' : '🌐 VPN Сервер';
+            document.getElementById('happDirectLink').href = happDirectLink;
+            document.getElementById('happWebLink').href = happWebLink;
+            document.getElementById('generatedDate').textContent = new Date().toLocaleDateString('ru-RU');
+            document.getElementById('configId').textContent = uuid ? uuid.substring(0, 8) : 'N/A';
             
             // Генерируем QR код
             generateQRCode(vlessLink);
             
-            // Сохраняем ссылку в глобальной переменной
+            // Сохраняем в глобальные переменные
             window.vlessLink = vlessLink;
-            window.happLink = happLink;
+            window.happDirectLink = happDirectLink;
+            
+            // Запускаем таймер автоматического редиректа
+            startAutoRedirect();
             
             // Показываем страницу
             document.getElementById('loading').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
         });
         
-        // Функция генерации UUID
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
+        // Автоматический редирект на Happ
+        function startAutoRedirect() {
+            redirectTimer = setInterval(function() {
+                countdownValue--;
+                document.getElementById('countdown').textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(redirectTimer);
+                    redirectToHapp();
+                }
+            }, 1000);
         }
         
-        // Функция форматирования даты
+        // Переход на Happ
+        function redirectToHapp() {
+            // Пробуем открыть happ:// ссылку
+            window.location.href = window.happDirectLink;
+            
+            // Если через 1 секунду не сработало, открываем веб-версию
+            setTimeout(function() {
+                if (!document.hidden) {
+                    window.location.href = window.happWebLink;
+                }
+            }, 1000);
+        }
+        
+        // Показать QR код
+        function showQR() {
+            const qrSection = document.getElementById('qrSection');
+            qrSection.style.display = qrSection.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Остальные функции (formatDate, copyConfig, showSuccessMessage, generateQRCode) 
+        // остаются такими же как в вашем коде
+        
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('ru-RU', {
@@ -490,13 +256,11 @@
             });
         }
         
-        // Функция копирования конфигурации
         function copyConfig() {
             navigator.clipboard.writeText(window.vlessLink).then(function() {
                 showSuccessMessage('✅ Ссылка скопирована в буфер обмена!');
             }).catch(function(err) {
                 console.error('Ошибка копирования: ', err);
-                // Fallback для старых браузеров
                 const textArea = document.createElement('textarea');
                 textArea.value = window.vlessLink;
                 document.body.appendChild(textArea);
@@ -507,7 +271,6 @@
             });
         }
         
-        // Функция показа сообщения об успехе
         function showSuccessMessage(message) {
             const successMsg = document.getElementById('successMessage');
             successMsg.textContent = message;
@@ -518,48 +281,12 @@
             }, 3000);
         }
         
-        // Функция генерации QR кода
         function generateQRCode(text) {
             const qrCodeElement = document.getElementById('qrCode');
-            
-            // Используем Google Charts API для генерации QR кода
             const qrCodeUrl = `https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${encodeURIComponent(text)}&choe=UTF-8`;
-            
             qrCodeElement.src = qrCodeUrl;
             qrCodeElement.alt = 'QR Code для VPN конфигурации';
-            
-            // Fallback если изображение не загрузилось
-            qrCodeElement.onerror = function() {
-                qrCodeElement.outerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <p style="color: #666;">QR-код не доступен</p>
-                        <button onclick="copyConfig()" style="margin-top: 10px; padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                            📋 Скопировать ссылку
-                        </button>
-                    </div>
-                `;
-            };
         }
-        
-        // Обработка нажатия на кнопку Happ
-        document.getElementById('happLink').addEventListener('click', function(e) {
-            // Пытаемся открыть happ ссылку
-            setTimeout(function() {
-                // Если приложение не установлено, показываем инструкцию
-                if (document.hidden || document.webkitHidden) {
-                    // Пользователь остался на странице, значит приложение не установлено
-                    showSuccessMessage('⚠️ Установите приложение Happ VPN из магазина приложений');
-                }
-            }, 1000);
-        });
-        
-        // Проверяем видимость страницы
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                // Пользователь вернулся на страницу, значит приложение не установлено или не открылось
-                console.log('Пользователь вернулся на страницу');
-            }
-        });
     </script>
 </body>
 </html>
