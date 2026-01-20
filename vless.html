@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Конфигурация VLESS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .config {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Конфигурация VLESS</h1>
+    <div class="config" id="configOutput"></div>
+    
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Генерация vless ссылки из параметров
+        const config = {
+            uuid: params.get('uuid'),
+            server: params.get('server'),
+            port: params.get('port'),
+            type: params.get('type') || 'ws',
+            path: params.get('path') || '',
+            host: params.get('host') || '',
+            remark: params.get('remark') || 'VPN Config'
+        };
+        
+        // Формируем vless ссылку
+        let vlessUrl = `vless://${config.uuid}@${config.server}:${config.port}?`;
+        
+        const queryParams = new URLSearchParams();
+        queryParams.append('type', config.type);
+        queryParams.append('security', 'none');
+        queryParams.append('encryption', 'none');
+        
+        if (config.path) {
+            queryParams.append('path', config.path);
+        }
+        
+        if (config.host) {
+            queryParams.append('host', config.host);
+        }
+        
+        vlessUrl += queryParams.toString();
+        vlessUrl += `#${encodeURIComponent(config.remark)}`;
+        
+        // Отображаем конфигурацию
+        document.getElementById('configOutput').textContent = vlessUrl;
+        
+        // Пытаемся скопировать в буфер обмена
+        setTimeout(() => {
+            navigator.clipboard.writeText(vlessUrl).then(() => {
+                alert('Конфигурация скопирована в буфер обмена!');
+            });
+        }, 500);
+    </script>
+</body>
+</html>
